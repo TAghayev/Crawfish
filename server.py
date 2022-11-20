@@ -5,7 +5,7 @@ import socket
 
 #Define a host address and port
 host = '127.0.0.1' # Local Host
-port = 12345 # Port
+port = 55555 # Port
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Start the server
 server.bind((host, port)) #Server is bound to the local host on our port
@@ -47,7 +47,7 @@ def receive():
 
         print(f'Nickname of the client is {nickname}!')
         broadcast(f'{nickname} joined the chat!'.encode('ascii'))
-        client.send('Connected to the server!'.encode('arcii'))
+        client.send('Connected to the server!'.encode('ascii'))
 
         thread = threading.Thread(target = handle, args = (client, )) # One thread per each client, because we need to process messages at the same time
         thread.start()

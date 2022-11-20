@@ -6,7 +6,7 @@ import threading
 nickname = input ("Choose a nickname")
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Define a client
-client.connect(('127.0.0.1', 12345)) # Server triggers the accept method and sets up the connection
+client.connect(('127.0.0.1', 55555)) # Server triggers the accept method and sets up the connection
 
 
 
