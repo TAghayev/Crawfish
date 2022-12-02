@@ -20,6 +20,7 @@ def process_recieved_transmission() :
 def write_engine(client, pub, verif) :
     # startup
     # send keys to server, 
+    
     client.send()
 
     while True :
