@@ -1,0 +1,24 @@
+we have to start with a system of DMs, even if we do not display them appropriately as seperate DMs
+we can call it "done" with just the following:
+From Alex: Hi!
+To Alex: Hello!  <-- as some form of command in client
+From A.T.: Sup!
+From Alex: How are you?
+To A.T.: Yo! <-- also as some form of command in client
+
+So, the plan is below.
+
+server.py must include the functions:
+    distribute_keys -- on new user join, distribute new key dictionary
+    push_transmission -- push through a transmission in a message from one user to another
+                         must call pull_target_id to get destination, and send to appropriate user 
+
+client.py must include the functions:
+    send_transmission -- send transmission to server
+                         appropriately created by calling construct_transmission
+
+
+
+If we want to move to more "proper" dms, we will need to extend functionality to include client-size message storage. 
+This will additionally involve creating "scenes" for each messaging, a home page with options, etc.
+Whether we want to pursue this with GUI or not is up for later discussion. 
