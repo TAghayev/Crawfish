@@ -16,7 +16,7 @@ server.py must include the functions:
 client.py must include the functions:
     send_transmission -- send transmission to server
                          appropriately created by calling construct_transmission
-
+    process_recieved_transmission.
 
 
 If we want to move to more "proper" dms, we will need to extend functionality to include client-size message storage. 
