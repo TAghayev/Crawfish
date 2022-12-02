@@ -9,9 +9,12 @@ host = '127.0.0.1' # Local Host
 port = 55555 # Port
 
 def send_transmission() :
+    # call construct_transmission to build the message
+    # send said message
     return
 
 def process_recieved_transmission() :
+    # call deconstruct_transmission to verify the message, post  process and print... something?
     return
 
 def write_engine(client, pub, verif) :
