@@ -16,7 +16,7 @@ keys = {} # dictionary of keys
           # value: tuple(nickname, public_key, verification_key)
 
 def broadcast(transmission) :
-    for client in clients.values() :
+    for client in clients.values():
         client.send(transmission)
     return
 
@@ -48,6 +48,16 @@ def wait_for_connections(server) :
         broadcast(pickle.dumps(keys))
         return
 
+
+def distribute_keys():
+    #on new user join, distribute new key dictionary
+    pass
+
+
+def push_transmission(transmission):
+    target_id = tc.pull_target_id(transmission) #Pull the target id to figure out the destination.
+    #TO-DO: send to appropriate user
+    return True #REVIEW: returns True if pushed successfully?
 
 if __name__ == "__main__" :
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Start the server

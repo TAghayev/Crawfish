@@ -1,5 +1,6 @@
-we have to start with a system of DMs, even if we do not display them appropriately as seperate DMs
+we have to start with a system of DMs, even if we do not display them appropriately as separate DMs
 we can call it "done" with just the following:
+
 From Alex: Hi!
 To Alex: Hello!  <-- as some form of command in client
 From A.T.: Sup!
