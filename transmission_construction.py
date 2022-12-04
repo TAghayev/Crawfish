@@ -41,23 +41,28 @@ def construct_transmission(message, target_id, target_pubkey, signing_key) :
     transmission = pickle.dumps((target_id, encrypted_message, signature))
     return transmission
 
-def deconstruct_transmission(transmission, private_key, verification_key) :
+def deconstruct_transmission(transmission, private_key, keys) :
     # take in encoded tuple, rip it apart
     # verify the message and decrypt the message.
-    target_id, encrypted_message, signature = pickle.loads(transmission)
+    target_id, encrypted_message, signature, origin_id = pickle.loads(transmission)
+    nick, _, verification_key = keys[origin_id]
     decrypted_message = decrypt_message(private_key, encrypted_message)
     message_verified = verify_signature(verification_key, encrypted_message, target_id, signature)
     if not message_verified :
         print("MALFORMED MESSAGE DETECTED")
-    return decrypted_message
+    return decrypted_message, nick
 
-def pull_target_id(transmission) :
+def server_pass_mod(transmission, origin_id) :
     target_id, encrypted_message, signature = pickle.loads(transmission)
-    return target_id
+    mod_tr = pickle.dumps((target_id, encrypted_message, signature, origin_id))
+    print(target_id, mod_tr)
+    return target_id, mod_tr
 
 if __name__ == "__main__" :
     secret_message = "This is a secret!"
     target_id = 8081337
+    origin_id = 1010101
+
     print(secret_message)
 
     #THESE WOULD BE GENERATED INDEPENDANTLY!!! but, im doing this to save time.
@@ -71,7 +76,7 @@ if __name__ == "__main__" :
     print(pickle.loads(transmission))
     
     # server finds the target_id, to determine the message is meant for bob
-    target_id = pull_target_id(transmission)
+    target_id = server_pass_mod(transmission, origin_id)
     print(target_id)
 
     # bob after recieving transmission
