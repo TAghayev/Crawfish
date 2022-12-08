@@ -5,7 +5,7 @@ import pickle
 import time
 
 # definitions
-enc_standard = 'utf8'
+enc_standard = 'utf8' 
 msg_len = 1024
 host = '127.0.0.1'  # Local Host
 port = 55555  # Port
@@ -14,6 +14,14 @@ END_TRANSMISSION = b"break"
 # globals
 keys = {}
 keys_live = False
+
+def print_online() :
+    print("\nOnline Users")
+    print(  "------------")
+    for key in keys.keys() :
+        nick, _, _ = keys[key]
+        print(nick + " | id: " + str(key))
+    print("\n")
 
 def send_transmission(message, target_id, target_pubkey, signing_key):
 
@@ -29,13 +37,16 @@ def process_recieved_transmission(transmission, private_key):
     tr = pickle.loads(transmission)
     if type(tr) is dict :
         keys = tr
-        print("Keys transferred, ready to message!")
+        # print("Keys transferred, ready to message!")
         keys_live = True
     else :
-        print("message recieved!")
-        
+        # print("message recieved!")
+        out = tc.deconstruct_transmission(transmission, private_key, keys)
+        if out is None :
+            return
         received_message, nick = tc.deconstruct_transmission(transmission, private_key, keys)
-        print(nick , ": " , received_message)
+        print("\n" + nick + ": " + received_message)
+        print("Enter a command:", end=" ")
 
 
 def get_target_ID(input) :
@@ -51,7 +62,7 @@ def get_target_ID(input) :
 
 def process_command(input, client, sign) :
 
-    if len(input) < 6 :
+    if len(input) < 1 :
         print("Invalid command")
         return
 
@@ -78,6 +89,8 @@ def process_command(input, client, sign) :
         time.sleep(.2)
         client.send(b"break")
         print("sent :", message, "| to :", nick)
+    if input[1] == "o" :
+        print_online()
 
     return
 
@@ -113,7 +126,7 @@ def read_engine(client, priv):
             tr = b""
             while True :
                 packet = client.recv(msg_len)
-                print(len(packet), "client read")
+                # print(len(packet), "client read") DEBUG
                 if packet == END_TRANSMISSION or len(packet) == 0:
                     break
                 tr += packet

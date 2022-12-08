@@ -46,7 +46,7 @@ def process_connection(id) :
             while True :
                 
                 packet = client.recv(msg_len)
-                print(len(packet))
+                print("packet recieved length", len(packet)) # DEBUG
                 if packet == END_TRANSMISSION:
                     break
                 tr += packet
@@ -87,7 +87,7 @@ def wait_for_connections(server) :
         tr = b""
         while True :
             packet = client.recv(msg_len)
-            print(len(packet))
+            print("packet recieved length", len(packet))
             if packet == b"break":
                 break
             tr += packet
@@ -101,7 +101,7 @@ def wait_for_connections(server) :
         broadcast(pickle.dumps(keys))
         print("keys broadcasted on connection from user: ", keys[new_ID][0])
 
-        ct = threading.Thread(target = process_connection, args = (new_ID))
+        ct = threading.Thread(target = process_connection, args = (new_ID,))
         ct.start()
 
 if __name__ == "__main__" :
@@ -110,5 +110,3 @@ if __name__ == "__main__" :
     server.listen() #Port starts listening
 
     wait_for_connections(server)
-
-

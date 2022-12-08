@@ -2,9 +2,11 @@ import rsa
 import ecdsa
 import pickle
 
+DEBUG = True
 enc_standard = 'utf8'
+key_size = 2048
 def generate_keys() :
-    (pub, priv) = rsa.newkeys(2048)
+    (pub, priv) = rsa.newkeys(key_size)
     sign = ecdsa.SigningKey.generate()
     verif = sign.verifying_key
     return pub, priv, sign, verif
@@ -25,7 +27,7 @@ def sign_message(signing_key, encrypted_message, target_id) :
     return sig
 
 def verify_signature(verification_key, encrypted_message, target_id, signature) :
-    new_msg = encrypted_message + bytes(target_id) # + bytes(1) # to show failure
+    new_msg = encrypted_message + bytes(target_id) # + bytes(1) # to show failure DEMO
     try :
         verified = verification_key.verify(signature, new_msg)
     except ecdsa.keys.BadSignatureError :
@@ -49,13 +51,17 @@ def deconstruct_transmission(transmission, private_key, keys) :
     decrypted_message = decrypt_message(private_key, encrypted_message)
     message_verified = verify_signature(verification_key, encrypted_message, target_id, signature)
     if not message_verified :
-        print("MALFORMED MESSAGE DETECTED")
+        if DEBUG :
+            print("MALFORMED MESSAGE DETECTED")
+        return None
     return decrypted_message, nick
 
 def server_pass_mod(transmission, origin_id) :
     target_id, encrypted_message, signature = pickle.loads(transmission)
+    
     mod_tr = pickle.dumps((target_id, encrypted_message, signature, origin_id))
-    print(target_id, mod_tr)
+    if DEBUG :
+        print(pickle.loads(mod_tr))
     return target_id, mod_tr
 
 if __name__ == "__main__" :
