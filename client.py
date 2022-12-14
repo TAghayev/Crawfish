@@ -133,7 +133,8 @@ def read_engine(client, priv):
             
             input = process_recieved_transmission(tr, priv)
             if input is None:
-                continue  # None occurs on error in deconstructing the transmission (faulty transmission or tampering detected)
+                continue    #None occurs on error in deconstructing the transmission 
+                            #(faulty transmission or tampering detected)
 
         except Exception as e:
             print(e)
